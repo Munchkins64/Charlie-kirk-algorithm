@@ -4,39 +4,30 @@ import java.awt.event.*;
 
 public class Window {
 
-    public static void NiggerWindow() {
+    public static void initWindow() {
         JFrame.setDefaultLookAndFeelDecorated(true);
-        JFrame frame = new JFrame("Charlie kirk Algorithinm");
+        JFrame frame = new JFrame("Algorithm Visualizer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        frame.setSize(400, 100);
+        
+        frame.setSize(600, 500); 
 
-        //frame.setLayout(new FlowLayout());
+        JLabel titleLabel = new JLabel("Sorting Algorithm");
+        JLabel textPlease = new JLabel("Enter numbers separated by commas (e.g. 50,10,100):");
 
-        JLabel nga = new JLabel("Charlie kirk Algorithinm");
-        JLabel textPlease = new JLabel("Enter number seperated by commas");
-
-        JTextArea resultArea = new JTextArea(10, 20);
-        resultArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(resultArea);
+        GraphPanel graphPanel = new GraphPanel();
 
         JTextField field1 = new JTextField(10);
-
         JButton button = new JButton("Submit");
 
-
-         GroupLayout layout = new GroupLayout(frame.getContentPane());
-         frame.getContentPane().setLayout(layout);
-         layout.setAutoCreateGaps(true);
-         layout.setAutoCreateContainerGaps(true);
-
-        button.setBounds(150, 200, 220, 50);
+        GroupLayout layout = new GroupLayout(frame.getContentPane());
+        frame.getContentPane().setLayout(layout);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    // Parse input
                     String input = field1.getText();
                     String[] parts = input.split(",");
                     int[] array = new int[parts.length];
@@ -45,58 +36,49 @@ public class Window {
                         array[i] = Integer.parseInt(parts[i].trim());
                     }
 
-                    // Call BubbleSort
-                    BubbleSort.sort(array);
+                    graphPanel.setArray(array);
 
-                    // Display result column-wise
-                    StringBuilder result = new StringBuilder("Sorted (Ascending):\n");
-                    for (int num : array) {
-                        result.append(num).append("\n");
-                    }
-                    resultArea.setText(result.toString());
+                    new Thread(() -> {
+                        BubbleSort.sort(array, graphPanel);
+                    }).start();
 
                 } catch (NumberFormatException ex) {
-                    resultArea.setText("Error: Please enter valid numbers!");
+                    System.out.println("Error: Please enter valid numbers!");
                 }
             }
         });
-        /*
-        frame.add(nga);
-        frame.add(textPlease);
-        frame.add(field1);
-        frame.add(button);*/
 
         layout.setHorizontalGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(nga)
+                        .addComponent(titleLabel)
                         .addGroup(
                                 layout.createSequentialGroup()
                                         .addComponent(textPlease)
                                         .addComponent(field1)
                                         .addComponent(button)
                         )
-                        .addComponent(scrollPane)
+                        .addComponent(graphPanel) // oh yeah i changed this
         );
 
         layout.setVerticalGroup(
                 layout.createSequentialGroup()
-                        .addComponent(nga)
+                        .addComponent(titleLabel)
                         .addGroup(
                                 layout.createParallelGroup(BASELINE)
                                         .addComponent(textPlease)
                                         .addComponent(field1)
                                         .addComponent(button)
                         )
-                        .addComponent(scrollPane)
+                        .addComponent(graphPanel)
         );
 
-        frame.pack();
+        frame.setVisible(true);
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                NiggerWindow();
+                initWindow();
             }
         });
     }
