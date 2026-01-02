@@ -1,7 +1,4 @@
 import javax.swing.*;
-import java.awt.FlowLayout;
-import java.awt.*;
-import org.w3c.dom.Text;
 import static javax.swing.GroupLayout.Alignment.*;
 import java.awt.event.*;
 
@@ -18,7 +15,6 @@ public class Window {
 
         JLabel nga = new JLabel("Charlie kirk Algorithinm");
         JLabel textPlease = new JLabel("Enter number seperated by commas");
-        JLabel FuckahhOutput = new JLabel("Result nigga");
 
         JTextArea resultArea = new JTextArea(10, 20);
         resultArea.setEditable(false);
