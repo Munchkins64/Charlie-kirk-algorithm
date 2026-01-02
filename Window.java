@@ -8,16 +8,16 @@ import java.awt.event.*;
 public class Window {
 
     public static void NiggerWindow() {
-
+        JFrame.setDefaultLookAndFeelDecorated(true);
         JFrame frame = new JFrame("Charlie kirk Algorithinm");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setSize(400, 100);
 
-        frame.setLayout(new FlowLayout());
+        //frame.setLayout(new FlowLayout());
 
         JLabel nga = new JLabel("Charlie kirk Algorithinm");
-        JLabel textPlease = new JLabel("Enter you gyat damn number seperated by commas");
+        JLabel textPlease = new JLabel("Enter number seperated by commas");
         JLabel FuckahhOutput = new JLabel("Result nigga");
 
         JTextArea resultArea = new JTextArea(10, 20);
@@ -28,15 +28,11 @@ public class Window {
 
         JButton button = new JButton("Submit");
 
-        /*
-         * 
-         * GroupLayout layout = new GroupLayout(frame.getContentPane());
-         * 
-         * frame.getContentPane().setLayout(layout);
-         * 
-         * layout.setAutoCreateGaps(true);
-         * layout.setAutoCreateContainerGaps(true);
-         */
+
+         GroupLayout layout = new GroupLayout(frame.getContentPane());
+         frame.getContentPane().setLayout(layout);
+         layout.setAutoCreateGaps(true);
+         layout.setAutoCreateContainerGaps(true);
 
         button.setBounds(150, 200, 220, 50);
 
@@ -68,12 +64,37 @@ public class Window {
                 }
             }
         });
-
+        /*
         frame.add(nga);
         frame.add(textPlease);
         frame.add(field1);
-        frame.add(button);
-        frame.add(scrollPane);
+        frame.add(button);*/
+
+        layout.setHorizontalGroup(
+                layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                        .addComponent(nga)
+                        .addGroup(
+                                layout.createSequentialGroup()
+                                        .addComponent(textPlease)
+                                        .addComponent(field1)
+                                        .addComponent(button)
+                        )
+                        .addComponent(scrollPane)
+        );
+
+        layout.setVerticalGroup(
+                layout.createSequentialGroup()
+                        .addComponent(nga)
+                        .addGroup(
+                                layout.createParallelGroup(BASELINE)
+                                        .addComponent(textPlease)
+                                        .addComponent(field1)
+                                        .addComponent(button)
+                        )
+                        .addComponent(scrollPane)
+        );
+
+        frame.pack();
     }
 
     public static void main(String[] args) {
