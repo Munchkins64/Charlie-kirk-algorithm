@@ -1,3 +1,5 @@
+package algorithm;
+
 import javax.swing.*;
 import java.awt.*;
 

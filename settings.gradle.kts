@@ -1,0 +1,1 @@
+rootProject.name = "Charlie-Kirk-Algorithm"

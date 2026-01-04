@@ -1,3 +1,5 @@
+package algorithm;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,7 +12,7 @@ public class GraphPanel extends JPanel {
 
     public void setArray(int[] array) {
         this.array = array;
-        repaint(); 
+        repaint();
     }
 
     @Override
@@ -20,13 +22,13 @@ public class GraphPanel extends JPanel {
 
         int panelWidth = getWidth();
         int panelHeight = getHeight();
-        
+
         int maxVal = Integer.MIN_VALUE;
         for (int val : array) {
             if (val > maxVal) maxVal = val;
         }
 
-        if (maxVal == 0) maxVal = 1; 
+        if (maxVal == 0) maxVal = 1;
 
         int barWidth = panelWidth / array.length;
 
@@ -43,7 +45,7 @@ public class GraphPanel extends JPanel {
             g.setColor(Color.WHITE);
             g.fillRect(x, y, barWidth - 2, barHeight);
 
-            if (barWidth > 20) { 
+            if (barWidth > 20) {
                 g.setColor(Color.CYAN);
                 g.drawString(String.valueOf(array[i]), x + (barWidth/4), y - 5);
             }
