@@ -1,5 +1,7 @@
 package algorithm;
 
+import com.formdev.flatlaf.FlatDarkLaf;
+
 import javax.swing.*;
 import static javax.swing.GroupLayout.Alignment.*;
 
@@ -11,6 +13,9 @@ import java.net.URISyntaxException;
 
 public class Window {
     private static boolean FileEntered = false;
+    private static boolean bsort = true;
+    private static boolean msort = false;
+
 
     public static void initWindow() {
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -31,22 +36,51 @@ public class Window {
         JMenuBar mb = new JMenuBar();
         JMenu x  = new JMenu("Open");
         JMenu h  = new JMenu("Help");
+        JMenu sa = new JMenu("Sorting Algorithm");
+        JMenu m = new JMenu("Mode");
         JMenu U = new JMenu("Uninstall");
         JMenuItem Files = new JMenuItem("Use a File");
         JMenuItem hm = new JMenuItem("Help me");
         JMenuItem ua = new JMenuItem("Uninstall App");
         JMenuItem dm = new JMenuItem("Use Demo file");
+        JRadioButtonMenuItem bs = new JRadioButtonMenuItem("Bubble Sort");
+        JRadioButtonMenuItem ms = new JRadioButtonMenuItem("Merge Sort");
+        //JRadioButtonMenuItem l = new JRadioButtonMenuItem("Light Mode");
+        JRadioButtonMenuItem d = new JRadioButtonMenuItem("Dark Mode");
 
         Files.setIcon(ImageImport.pngimport("/plus.png"));
         dm.setIcon(ImageImport.pngimport_s("/dfile.png", 16, 16));
 
+        ButtonGroup sorting_s = new ButtonGroup();
+        ButtonGroup mode = new ButtonGroup();
+
+        sorting_s.add(bs);
+        sorting_s.add(ms);
+
+        //mode.add(l);
+        mode.add(d);
+
+        bs.setSelected(true);
+
+        //l.setSelected(true);
+
         x.add(Files);
         x.add(dm);
+
         h.add(hm);
+
         U.add(ua);
+
+        sa.add(bs);
+        sa.add(ms);
+
+        //m.add(l);
+        m.add(d);
 
         mb.add(x);
         mb.add(h);
+        mb.add(sa);
+        mb.add(m);
         mb.add(U);
 
         frame.setJMenuBar(mb);
@@ -80,9 +114,14 @@ public class Window {
                     // === RUN SELECTED ALGORITHM ===
                     String selected = (String) algorithmSelector.getSelectedItem();
                     new Thread(() -> {
-                        if (selected.equals("Bubble Sort")) {
+                        /*if (selected.equals("Bubble Sort")) {
                             BubbleSort.sort(array, graphPanel);
                         } else if (selected.equals("Merge Sort")) {
+                            MergeSort.sort(array, graphPanel);
+                        }*/
+                        if (bsort){
+                            BubbleSort.sort(array, graphPanel);
+                        } else if (msort) {
                             MergeSort.sort(array, graphPanel);
                         }
                     }).start();
@@ -115,13 +154,20 @@ public class Window {
                     graphPanel.setArray(array);
 
                     // FUcking run the thing nigg-
-                    String selected = (String) algorithmSelector.getSelectedItem();
+                    //String selected = (String) algorithmSelector.getSelectedItem();
                     new Thread(() -> {
-                        if (selected.equals("Bubble Sort")) {
+                        /*if (selected.equals("Bubble Sort")) {
                             BubbleSort.sort(array, graphPanel);
                         } else if (selected.equals("Merge Sort")) {
                             MergeSort.sort(array, graphPanel);
+                        }*/
+
+                        if (bsort){
+                            BubbleSort.sort(array, graphPanel);
+                        } else if (msort) {
+                            MergeSort.sort(array, graphPanel);
                         }
+
                     }).start();
 
                 } catch (IOException ex) {
@@ -149,9 +195,14 @@ public class Window {
                 // running the algoritm ur gooner ass want
                 String selected = (String) algorithmSelector.getSelectedItem();
                 new Thread(() -> {
-                    if (selected.equals("Bubble Sort")) {
+                    /*if (selected.equals("Bubble Sort")) {
                         BubbleSort.sort(array, graphPanel);
                     } else if (selected.equals("Merge Sort")) {
+                        MergeSort.sort(array, graphPanel);
+                    }*/
+                    if (bsort){
+                        BubbleSort.sort(array, graphPanel);
+                    } else if (msort) {
                         MergeSort.sort(array, graphPanel);
                     }
                 }).start();
@@ -181,6 +232,60 @@ public class Window {
             }
         });
 
+        bs.addActionListener(e -> {
+            if (msort){
+                bsort = true;
+                msort = false;
+            }
+        });
+
+        ms.addActionListener(e -> {
+            if (bsort){
+                msort = true;
+                bsort = false;
+            }
+        });
+
+        d.addActionListener(e -> {
+            Color bg = new Color(45, 45, 45);
+            Color fg = new Color(220, 220, 220);
+
+            frame.getContentPane().setBackground(bg);
+
+            button.setBackground(new Color(70, 70, 70));
+            button.setForeground(fg);
+            titleLabel.setForeground(fg);
+            textPlease.setForeground(fg);
+            field1[0].setBackground(new Color(60, 60, 60));
+            field1[0].setForeground(fg);
+            field1[0].setCaretColor(fg);
+
+
+            mb.setBackground(bg);
+            mb.setForeground(fg);
+            // idek wht the thing belowme is
+            for (MenuElement me : mb.getSubElements()) {
+                if (me instanceof JMenu) {
+                    JMenu menu = (JMenu) me;
+                    menu.setOpaque(true);
+                    menu.setBackground(bg);
+                    menu.setForeground(fg);
+                    for (Component comp : menu.getMenuComponents()) {
+                        if (comp instanceof JMenuItem) {
+                            JMenuItem item = (JMenuItem) comp;
+                            item.setOpaque(true);
+                            item.setBackground(bg);
+                            item.setForeground(fg);
+                        }
+                    }
+                }
+            }
+
+            SwingUtilities.updateComponentTreeUI(frame);
+        });
+
+
+
         layout.setHorizontalGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                         .addComponent(titleLabel)
@@ -188,7 +293,7 @@ public class Window {
                                 layout.createSequentialGroup()
                                         .addComponent(textPlease)
                                         .addComponent(field1[0])
-                                        .addComponent(algorithmSelector)  // ADDED
+                                        //.addComponent(algorithmSelector)  // ADDED
                                         .addComponent(button)
                         )
                         .addComponent(graphPanel)
@@ -201,7 +306,7 @@ public class Window {
                                 layout.createParallelGroup(BASELINE)
                                         .addComponent(textPlease)
                                         .addComponent(field1[0])
-                                        .addComponent(algorithmSelector)
+                                        //.addComponent(algorithmSelector)
                                         .addComponent(button)
                         )
                         .addComponent(graphPanel)
