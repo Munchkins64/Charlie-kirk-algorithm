@@ -19,6 +19,8 @@ public class Window {
         JLabel titleLabel = new JLabel("Sorting Algorithm");
         JLabel textPlease = new JLabel("Enter numbers separated by commas (e.g. 50,10,100):");
 
+
+
         //new stuff
 
         JMenuBar mb = new JMenuBar();
@@ -28,9 +30,16 @@ public class Window {
         JMenuItem Files = new JMenuItem("Use a File");
         JMenuItem hm = new JMenuItem("Help me");
         JMenuItem ua = new JMenuItem("Uninstall App");
+        JMenuItem dm = new JMenuItem("Use Demo file");
 
+
+
+        Files.setIcon(ImageImport.pngimport("plus.png"));
+
+        dm.setIcon(ImageImport.pngimport_s("dfile.png" , 16,16));
 
         x.add(Files);
+        x.add(dm);
         h.add(hm);
         U.add(ua);
 
@@ -54,6 +63,12 @@ public class Window {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                /*
+                    if(FileEntered){
+                    field1[0].setText("");
+                    field1[0].setEditable(true);
+                    button.setText("Submit");
+                }*/
                 try {
                     String input = field1[0].getText();
                     String[] parts = input.split(",");
@@ -78,7 +93,8 @@ public class Window {
         Files.addActionListener(e -> {
             field1[0].setText("File Entered");
             field1[0].setEditable(false);
-
+            //button.setText("New set");
+            FileEntered = true;
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showOpenDialog(frame);
 
@@ -105,6 +121,33 @@ public class Window {
                     throw new RuntimeException(ex);
                 }
 
+            }
+        });
+
+        dm.addActionListener(e -> {
+            field1[0].setText("File Entered");
+            field1[0].setEditable(false);
+            //button.setText("New set");
+            FileEntered = true;
+
+            try(BufferedReader nreader = new BufferedReader(new FileReader("Hi.txt"))) {
+                String input = nreader.readLine();
+                String[] parts = input.split(",");
+                int[] array = new int[parts.length];
+
+                for (int i = 0; i < parts.length; i++) {
+                    array[i] = Integer.parseInt(parts[i].trim());
+                }
+
+                graphPanel.setArray(array);
+
+                new Thread(() -> {
+                    BubbleSort.sort(array, graphPanel);
+                }).start();
+
+
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
         });
 
